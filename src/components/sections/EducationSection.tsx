@@ -31,7 +31,7 @@ const EducationSection = () => {
               The Learning Phase
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-              Building a strong foundation in Computer Science at one of India's premier technical institutions
+              Building a strong foundation in Computer Science at one of India&apos;s premier technical institutions
             </p>
           </motion.div>
 

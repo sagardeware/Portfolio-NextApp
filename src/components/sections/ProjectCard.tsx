@@ -1,7 +1,6 @@
 'use client'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { useState } from 'react'
 
 interface ProjectCardProps {
   title: string
@@ -14,8 +13,6 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ title, description, technologies, imageUrl, githubUrl, liveUrl, index }: ProjectCardProps) => {
-  const [isTouched, setIsTouched] = useState(false)
-
   const handleLinkClick = (url: string, e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation()
     window.open(url, '_blank', 'noopener,noreferrer')
@@ -27,8 +24,6 @@ const ProjectCard = ({ title, description, technologies, imageUrl, githubUrl, li
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
-      onTouchStart={() => setIsTouched(true)}
-      onTouchEnd={() => setTimeout(() => setIsTouched(false), 150)}
       className="group relative bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700/50 hover:border-blue-500/50 active:border-blue-500/70 transition-all duration-300"
     >
       {/* Project Image Container */}

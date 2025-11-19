@@ -1,7 +1,7 @@
 'use client'
-import { motion, useMotionValue, useAnimationControls } from 'framer-motion'
+import { motion, useAnimationControls } from 'framer-motion'
 import { techStackByCategory } from '@/data/techStack'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 
 const TechStackSection = () => {
   // Combine languages, tools, and AI tools for the marquee
@@ -22,6 +22,17 @@ const TechStackSection = () => {
   const itemWidth = 140 // Approximate width of each item with gap
   const totalWidth = allTechnologies.length * itemWidth
 
+  const startAutoScroll = useCallback(() => {
+    controls.start({
+      x: -totalWidth,
+      transition: {
+        duration: 30,
+        ease: "linear",
+        repeat: Infinity,
+      }
+    })
+  }, [controls, totalWidth])
+
   useEffect(() => {
     // Start auto-scrolling
     startAutoScroll()
@@ -31,18 +42,7 @@ const TechStackSection = () => {
         clearTimeout(dragTimeout.current)
       }
     }
-  }, [])
-
-  const startAutoScroll = () => {
-    controls.start({
-      x: -totalWidth,
-      transition: {
-        duration: 30,
-        ease: "linear",
-        repeat: Infinity,
-      }
-    })
-  }
+  }, [startAutoScroll])
 
   const handleDragStart = () => {
     isDragging.current = true

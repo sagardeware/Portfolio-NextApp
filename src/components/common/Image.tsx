@@ -1,6 +1,6 @@
-import NextImage from 'next/image'
+import NextImage, { ImageProps } from 'next/image'
 
-const Image = (props: any) => {
+const Image = (props: ImageProps) => {
   return (
     <NextImage
       {...props}
