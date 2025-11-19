@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { personalInfo, menuItems as navItems } from '@/data/personal'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -9,14 +10,7 @@ const Navbar = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(0)
   const [visible, setVisible] = useState(true)
 
-  const menuItems = useMemo(() => [
-    { title: 'Home', href: 'home' },
-    { title: 'About', href: 'about' },
-    { title: 'Projects', href: 'projects' },
-    { title: 'UI/UX', href: 'design-projects' },
-    { title: 'Experience', href: 'experience' },
-    { title: 'Contact', href: 'contact' },
-  ], [])
+  const menuItems = useMemo(() => navItems, [])
 
   // Handle navbar visibility on scroll with debouncing
   useEffect(() => {
@@ -86,12 +80,11 @@ const Navbar = () => {
             className="text-white text-xl font-bold"
           >
             <motion.span
-              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="cursor-pointer"
+              className="cursor-pointer touch-manipulation"
               onClick={() => scrollToSection('home')}
             >
-              Your Name
+              {personalInfo.name}
             </motion.span>
           </motion.div>
 
@@ -129,10 +122,9 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <motion.button
-            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
+            className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-400 active:text-white active:bg-gray-700 focus:outline-none touch-manipulation"
           >
             <span className="sr-only">Open main menu</span>
             <AnimatePresence mode="wait">
@@ -184,12 +176,11 @@ const Navbar = () => {
                   <motion.button
                     key={item.href}
                     onClick={() => scrollToSection(item.href)}
-                    whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                    className={`block w-full text-left px-3 py-3 rounded-md text-base font-medium transition-colors touch-manipulation ${
                       activeSection === item.href
                         ? 'text-white bg-blue-500/20'
-                        : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                        : 'text-gray-300 active:text-white active:bg-gray-700'
                     }`}
                   >
                     {item.title}

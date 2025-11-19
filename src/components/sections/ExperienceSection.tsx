@@ -1,62 +1,13 @@
 'use client'
 import { motion } from 'framer-motion'
-
-interface Position {
-  title: string
-  duration: string
-  description: string[]
-}
-
-interface ExperienceItem {
-  company: string
-  overallDuration?: string
-  positions?: Position[]
-  title?: string
-  duration?: string
-  description?: string[]
-  technologies: string[]
-}
-
-const experiences: ExperienceItem[] = [
-  {
-    company: "Leucine-AI for Pharma",
-    overallDuration: "Dec 2024 - Present",
-    positions: [
-      {
-        title: "Software Engineer",
-        duration: "May 2025 - Present",
-        description: [
-          "Promoted to full-time Software Engineer role",
-          "Currently working on Multi-Industry Application MarketPlace Web Application",
-          "Developing full-stack solutions for pharmaceutical industry clients"
-        ]
-      },
-      {
-        title: "Software Engineer Intern",
-        duration: "Dec 2024 - April 2025",
-        description: [
-          "Worked on backend and frontend of ERP products for pharmaceutical industry",
-          "Contributed to development of critical business applications",
-          "Collaborated with cross-functional teams to deliver projects on time"
-        ]
-      }
-    ],
-    technologies: ["React", "Node.js", "TypeScript", "AWS", "MongoDB", "REST API"]
-  },
-  {
-    title: "Web Developer Intern",
-    company: "Centre For Development Of Advanced Computing",
-    duration: "March 2024 - Sept 2024",
-    description: [
-      "Created and maintained multiple full-stack applications ",
-      "Implemented responsive designs and improved site performance",
-      "Collaborated with cross-functional teams to deliver projects on time"
-    ],
-    technologies: ["React", "Node.js", "AWS", "TypeScript", "SQL"]
-  }
-]
+import { useState } from 'react'
+import { experiences } from '@/data/experience'
+import { personalInfo } from '@/data/personal'
+import { CalendarIcon, LocationIcon, DownloadIcon } from '@/constants/icons'
 
 const ExperienceSection = () => {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(0)
+
   return (
     <section id="experience" className="min-h-screen py-20 relative overflow-hidden bg-[#0A0A0A]">
       {/* Background Elements */}
@@ -69,7 +20,8 @@ const ExperienceSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-20"
+          viewport={{ once: true }}
+          className="text-center mb-16"
         >
           <motion.div
             initial={{ scale: 0 }}
@@ -80,120 +32,184 @@ const ExperienceSection = () => {
             <span className="text-4xl">💼</span>
           </motion.div>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Chapter 5: Professional Growth
+            Professional Experience
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            Where theory meets practice. Each role has shaped my journey and contributed to my professional evolution.
+          <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">
+            Building impactful solutions across industries
           </p>
         </motion.div>
 
-        {/* Experience Timeline */}
-        <div className="relative">
-          {/* Timeline Line */}
-          <div className="absolute left-0 md:left-1/2 transform md:-translate-x-px top-0 h-full w-[2px] bg-gradient-to-b from-blue-500/50 via-purple-500/50 to-blue-500/50" />
-
-          {/* Experience Items */}
+        {/* Modern Card-Based Timeline */}
+        <div className="max-w-4xl mx-auto">
           {experiences.map((experience, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="relative mb-12"
+              className="mb-6 last:mb-0"
             >
-              <div className={`flex flex-col md:flex-row items-center ${
-                index % 2 === 0 ? 'md:flex-row-reverse' : ''
-              }`}>
-                {/* Timeline Point */}
-                <div className="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-500 rounded-full" />
-                
-                {/* Content */}
-                <div className={`w-full md:w-1/2 ${
-                  index % 2 === 0 ? 'md:pl-12' : 'md:pr-12'
-                }`}>
-                  <div className="p-6 bg-gray-800 rounded-lg shadow-lg">
-                    <div className="flex justify-between items-center mb-4">
-                      <div>
-                        <h3 className="text-xl font-bold text-white">
-                          {experience.positions ? experience.company : experience.title}
+              {/* Main Experience Card */}
+              <div className="group relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl border border-gray-700/50 md:hover:border-blue-500/50 transition-all duration-300 overflow-hidden">
+                {/* Gradient Accent Bar */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
+
+                {/* Card Header - Always Visible */}
+                <div
+                  className="p-6 cursor-pointer"
+                  onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                    {/* Left: Company Info */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-xl md:text-2xl font-bold text-white truncate">
+                          {experience.company}
                         </h3>
-                        {!experience.positions && <p className="text-blue-400">{experience.company}</p>}
+                        {index === 0 && (
+                          <span className="flex-shrink-0 px-3 py-1 text-xs font-medium bg-green-500/20 text-green-400 rounded-full border border-green-500/30">
+                            Current
+                          </span>
+                        )}
                       </div>
-                      <span className="text-gray-400 text-sm">
-                        {experience.positions ? experience.overallDuration : experience.duration}
-                      </span>
-                    </div>
-                    
-                    {experience.positions ? (
-                      <div className="mb-4">
-                        {experience.positions.map((position, posIndex) => (
-                          <div key={posIndex} className={`relative ${posIndex !== 0 ? 'mt-6 pt-6 border-t border-gray-700' : ''}`}>
-                            <div className="flex justify-between items-center mb-2">
-                              <h4 className="text-white font-semibold">
-                                {position.title}
-                                {posIndex === 0 && (
-                                  <span className="ml-2 text-xs px-2 py-1 bg-blue-500/30 text-blue-300 rounded-full">
-                                    Current
-                                  </span>
-                                )}
-                              </h4>
-                              <span className="text-gray-400 text-sm">{position.duration}</span>
-                            </div>
-                            <ul className="list-disc list-inside text-gray-300 space-y-2">
-                              {position.description.map((item, i) => (
-                                <li key={i}>{item}</li>
-                              ))}
-                            </ul>
-                            {posIndex === 0 && (
-                              <div className="absolute -left-3 top-0 h-3 w-3 bg-blue-500 rounded-full"></div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <ul className="list-disc list-inside mb-4 text-gray-300 space-y-2">
-                        {experience.description?.map((item, i) => (
-                          <li key={i}>{item}</li>
-                        ))}
-                      </ul>
-                    )}
-                    
-                    <div className="flex flex-wrap gap-2">
-                      {experience.technologies.map((tech, i) => (
-                        <span
-                          key={i}
-                          className="px-3 py-1 text-sm bg-gray-700 rounded-full text-gray-300"
-                        >
-                          {tech}
+
+                      {/* Position/Title */}
+                      <p className="text-blue-400 font-medium text-base md:text-lg mb-2">
+                        {experience.positions ? experience.positions[0].title : experience.title}
+                      </p>
+
+                      {/* Meta Info */}
+                      <div className="flex flex-wrap items-center gap-3 text-sm text-gray-400">
+                        <span className="flex items-center gap-1.5">
+                          <CalendarIcon />
+                          {experience.positions ? experience.overallDuration : experience.duration}
                         </span>
-                      ))}
+                        {experience.location && (
+                          <>
+                            <span className="text-gray-600">•</span>
+                            <span className="flex items-center gap-1.5">
+                              <LocationIcon />
+                              {experience.location}
+                            </span>
+                          </>
+                        )}
+                      </div>
                     </div>
+
+                    {/* Right: Expand Button */}
+                    <motion.button
+                      animate={{ rotate: expandedIndex === index ? 180 : 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-gray-700/50 text-gray-400 md:hover:bg-gray-700 md:hover:text-white transition-colors touch-manipulation"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </motion.button>
                   </div>
                 </div>
+
+                {/* Expandable Content */}
+                <motion.div
+                  initial={false}
+                  animate={{
+                    height: expandedIndex === index ? 'auto' : 0,
+                    opacity: expandedIndex === index ? 1 : 0
+                  }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-6 pb-6 pt-0">
+                    <div className="border-t border-gray-700/50 pt-6">
+                      {/* Multiple Positions */}
+                      {experience.positions ? (
+                        <div className="space-y-6">
+                          {experience.positions.map((position, posIndex) => (
+                            <div key={posIndex} className="relative pl-6">
+                              {/* Timeline Connector */}
+                              <div className="absolute left-0 top-2 w-3 h-3 rounded-full bg-blue-500 border-4 border-gray-800" />
+                              {posIndex !== experience.positions!.length - 1 && (
+                                <div className="absolute left-[5px] top-5 bottom-0 w-0.5 bg-gradient-to-b from-blue-500/50 to-transparent" />
+                              )}
+
+                              {/* Position Details */}
+                              <div>
+                                <div className="flex flex-wrap items-center gap-2 mb-3">
+                                  <h4 className="text-lg font-semibold text-white">
+                                    {position.title}
+                                  </h4>
+                                  <span className="text-sm text-gray-400">
+                                    {position.duration}
+                                  </span>
+                                </div>
+
+                                <ul className="space-y-2 mb-4">
+                                  {position.description.map((item, i) => (
+                                    <li key={i} className="flex items-start gap-3 text-gray-300 text-sm md:text-base">
+                                      <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-blue-400 mt-2" />
+                                      <span>{item}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        /* Single Position */
+                        <ul className="space-y-3 mb-6">
+                          {experience.description?.map((item, i) => (
+                            <li key={i} className="flex items-start gap-3 text-gray-300 text-sm md:text-base">
+                              <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-blue-400 mt-2" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      {/* Technologies */}
+                      <div className="mt-6 pt-4 border-t border-gray-700/30">
+                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                          Technologies
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {experience.technologies.map((tech, i) => (
+                            <span
+                              key={i}
+                              className="px-3 py-1.5 text-xs md:text-sm font-medium bg-blue-500/10 text-blue-400 rounded-lg border border-blue-500/20"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* View Resume Button */}
+        {/* View Resume CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-center mt-16"
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="text-center mt-12"
         >
-          <a
-            href="https://drive.google.com/file/d/1CSKOnOjC0YiJHHUu9TDGszqNF_uksgkc/view?usp=sharing"
+          <motion.a
+            href={personalInfo.resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500/10 text-blue-400 rounded-full hover:bg-blue-500/20 transition-colors border border-blue-500/20"
+            whileTap={{ scale: 0.95 }}
+            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full md:hover:shadow-lg md:hover:shadow-blue-500/25 active:shadow-xl transition-all touch-manipulation"
           >
-            <span>View Full Resume</span>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-            </svg>
-          </a>
+            <DownloadIcon />
+            <span>Download Full Resume</span>
+          </motion.a>
         </motion.div>
       </div>
 
@@ -202,13 +218,13 @@ const ExperienceSection = () => {
         initial={{ opacity: 0, scale: 0 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1 }}
-        className="absolute top-1/4 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"
+        className="absolute top-1/4 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse pointer-events-none"
       />
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, delay: 0.2 }}
-        className="absolute bottom-1/4 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"
+        className="absolute bottom-1/4 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse pointer-events-none"
       />
     </section>
   )

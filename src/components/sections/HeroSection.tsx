@@ -1,24 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-
-const journeySteps = [
-  {
-    title: "The Beginning",
-    description: "Turning ideas into reality through code",
-    icon: "💡"
-  },
-  {
-    title: "The Growth",
-    description: "Mastering the art of development",
-    icon: "🚀"
-  },
-  {
-    title: "The Vision",
-    description: "Building the future of technology",
-    icon: "🎯"
-  }
-]
+import { personalInfo, journeySteps } from '@/data/personal'
 
 const HeroSection = () => {
   return (
@@ -47,7 +30,7 @@ const HeroSection = () => {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6"
               >
-                Hi, I&apos;m Sagar Deware
+                Hi, I&apos;m {personalInfo.name}
               </motion.h1>
 
               <motion.div
@@ -57,8 +40,7 @@ const HeroSection = () => {
                 className="prose prose-invert max-w-none mb-8 sm:mb-12"
               >
                 <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
-                  A passionate Full Stack Developer and UI/UX Designer based in Pune, India. 
-                  I craft digital experiences that blend creativity with functionality.
+                  {personalInfo.bio}
                 </p>
               </motion.div>
 
@@ -72,8 +54,7 @@ const HeroSection = () => {
                 {journeySteps.map((step, index) => (
                   <motion.div
                     key={index}
-                    whileHover={{ y: -5 }}
-                    className="flex-1 min-w-[150px] max-w-[200px] bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 border border-gray-700/50 hover:border-blue-500/50 transition-all"
+                    className="flex-1 min-w-[150px] max-w-[200px] bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 border border-gray-700/50 md:hover:border-blue-500/50 md:hover:-translate-y-1 transition-all"
                   >
                     <span className="text-xl mb-2 block">{step.icon}</span>
                     <h3 className="text-white font-semibold text-sm mb-1">{step.title}</h3>
@@ -116,8 +97,8 @@ const HeroSection = () => {
                   <div className="relative w-full h-full p-4">
                     <div className="relative w-full h-full rounded-2xl overflow-hidden">
                       <Image
-                        src="/images/profilephoto.jpg"
-                        alt="Sagar Deware"
+                        src={personalInfo.profileImage}
+                        alt={personalInfo.name}
                         fill
                         className="object-cover"
                         priority

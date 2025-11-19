@@ -1,26 +1,8 @@
 'use client'
 import { motion } from 'framer-motion'
 import ProjectCard from './ProjectCard'
-
-const projects = [
-  {
-    title: "Earthquake Visualizer",
-    description: "This is a web application that visualizes earthquake data from the US Geological Survey (USGS) API. It allows users to view earthquake data on a map and filter it by various parameters.",
-    technologies: ["React", "Javascript", "OpenAPI", "Typescript"],
-    imageUrl: "/images/earvi.jpeg",
-    githubUrl: "https://github.com/SagarD-123/Earthquake-Visualizer",
-    liveUrl: "https://earvi.netlify.app/"
-  },
-  {
-    title: "Role Based Access Control System",
-    description: "This is a web application that allows admin to manage user roles and permissions. This dashboard also provides the analytics of the users and their activities.",
-    technologies: ["React", "TypeScript", "Tailwind","Nodejs","Render"],
-    imageUrl: "/images/rbacs.jpeg",
-    githubUrl: "https://github.com/SagarD-123/Role-Based-Access-Control-System",
-    liveUrl: "https://rbacs-ui.netlify.app/",
-  },
-  // Add more projects as needed
-]
+import { projects } from '@/data/projects'
+import { personalInfo } from '@/data/personal'
 
 const ProjectsSection = () => {
   return (
@@ -46,7 +28,7 @@ const ProjectsSection = () => {
             <span className="text-4xl">🚀</span>
           </motion.div>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Chapter 3: The Creation Phase
+            The Creation Phase
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
             Where ideas transform into reality. Each project tells a unique story of 
@@ -73,7 +55,7 @@ const ProjectsSection = () => {
           className="text-center mt-16"
         >
           <a
-            href="https://github.com/SagarD-123"
+            href={personalInfo.socialLinks.github}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500/10 text-blue-400 rounded-full hover:bg-blue-500/20 transition-colors border border-blue-500/20"
